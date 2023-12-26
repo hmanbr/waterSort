@@ -37,15 +37,7 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.O))
-		{
-			ExtraLanePowerUp();
-		}
 
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			InitializeLevel();
-		}
 	}
 
 	public void SetChosenLane(Lane lane)
@@ -266,7 +258,7 @@ public class GameManager : MonoBehaviour
 
 	}
 
-	private void ExtraLanePowerUp()
+	public void ExtraLanePowerUp()
 	{
 		if(numberOfLane == 10)
 		{

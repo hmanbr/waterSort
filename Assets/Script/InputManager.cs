@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private GameManager gameManager;
-
 
 	// Update is called once per frame
 	void Update()
