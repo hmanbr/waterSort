@@ -35,6 +35,19 @@ public class GameManager : MonoBehaviour
 		InitializeLevel();
 	}
 
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.O))
+		{
+			ExtraLanePowerUp();
+		}
+
+		if (Input.GetKeyDown(KeyCode.P))
+		{
+			InitializeLevel();
+		}
+	}
+
 	public void SetChosenLane(Lane lane)
 	{
 		if (chosenLane == null)
@@ -126,21 +139,7 @@ public class GameManager : MonoBehaviour
 		lane.transform.position = newPosition;
 	}
 
-	public bool ShapeCoditionMatched(Shape chosenShape, Shape receiverShape)
-	{
-		if (chosenShape != null && receiverShape == null)
-		{
-			return true;
-		}
-		else if (chosenShape.GetColor() != receiverShape.GetColor())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+	
 	public bool HasChosenLane()
 	{
 		return chosenLane != null;
@@ -148,7 +147,7 @@ public class GameManager : MonoBehaviour
 
 	public void InitializeLevel()
 	{
-		levelText.text = "Level " + currentLevel; //bad gui location
+		levelText.text = "Level " + currentLevel; //temp, bad gui location
 		TextAsset jsonFile = Resources.Load<TextAsset>("LevelData");
 
 		if (jsonFile != null)
@@ -222,7 +221,7 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	public void LoseCondition()
+	public void LoseCondition() // missing case where top slot for dupe is avalible, but still stuck
 	{
 		//get all top shape, put in a list
 		//check if nothing in list is dupe(all shape is distict) => lose
@@ -267,6 +266,20 @@ public class GameManager : MonoBehaviour
 
 	}
 
+	private void ExtraLanePowerUp()
+	{
+		if(numberOfLane == 10)
+		{
+			return;
+		}
+		Lane newLane = GameObject.Instantiate(lanePrefab);
+		allLanes.Add(newLane);
+		newLane.transform.position = LaneSpawnPositions[numberOfLane].position;
+		
+
+		numberOfLane++;
+	}
+
 	List<int> FindDuplicateIndices(List<int> data)
 	{
 		List<int> duplicates = data
@@ -276,6 +289,22 @@ public class GameManager : MonoBehaviour
 	.SelectMany(group => group.Select(item => item.Index))
 	.ToList();
 		return duplicates;
+	}
+
+	public bool ShapeCoditionMatched(Shape chosenShape, Shape receiverShape)
+	{
+		if (chosenShape != null && receiverShape == null)
+		{
+			return true;
+		}
+		else if (chosenShape.GetColor() != receiverShape.GetColor())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	[System.Serializable]
@@ -290,6 +319,8 @@ public class GameManager : MonoBehaviour
 	{
 		public List<Level> Level;
 	}
+
+
 
 }
 

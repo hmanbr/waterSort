@@ -1,0 +1,34 @@
+{
+    "name": "TouchInput",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "da55b6e5-6ed9-412f-84d6-d2235237437c",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "d8cfca02-3abe-46ae-afcd-88f084ef34ad",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3c25ad03-3e06-4338-9bf0-331ca3abdc67",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

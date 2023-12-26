@@ -123,37 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &59487847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 59487848}
-  m_Layer: 0
-  m_Name: SpawnPos2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &59487848
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 59487847}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.03, y: -2.18, z: 0.02350096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1669612977}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &319213828
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,69 +376,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &589553282
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 589553283}
-  m_Layer: 0
-  m_Name: SpawnPos4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &589553283
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589553282}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.8, y: -2.18, z: 0.02350096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1669612977}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &617569630
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 617569631}
-  m_Layer: 0
-  m_Name: SpawnPos1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &617569631
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617569630}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.9800005, y: -2.18, z: 0.02350096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1669612977}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &642350671
 GameObject:
@@ -480,6 +387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 642350672}
+  - component: {fileID: 642350673}
   m_Layer: 0
   m_Name: LaneSpawn6
   m_TagString: Untagged
@@ -495,13 +403,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642350671}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.66, y: -7.38, z: -0.037408784}
+  m_LocalPosition: {x: -2.641172, y: -6.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &642350673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642350671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 0, y: -6, z: 0}
 --- !u!1 &674221247
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 674221248}
+  - component: {fileID: 674221249}
   m_Layer: 0
   m_Name: LaneSpawn2
   m_TagString: Untagged
@@ -526,44 +450,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674221247}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.61, y: -0.42, z: -0.037408784}
+  m_LocalPosition: {x: -4.121172, y: -0.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &935711412
-GameObject:
+--- !u!114 &674221249
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 935711413}
-  m_Layer: 0
-  m_Name: SpawnPos3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &935711413
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935711412}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.2099996, y: -2.18, z: 0.02350096}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1669612977}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 674221247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: -1.48, y: 0, z: 0}
 --- !u!1 &978107694
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978107695}
+  - component: {fileID: 978107696}
   m_Layer: 0
   m_Name: LaneSpawn1
   m_TagString: Untagged
@@ -588,13 +497,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978107694}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.64, y: -0.42, z: 0}
+  m_LocalPosition: {x: -2.641172, y: -0.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &978107696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978107694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1079184380
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,6 +528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1079184381}
+  - component: {fileID: 1079184382}
   m_Layer: 0
   m_Name: LaneSpawn9
   m_TagString: Untagged
@@ -619,13 +544,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079184380}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.6, y: -7.38, z: -0.037408784}
+  m_LocalPosition: {x: -5.4411716, y: -6.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1079184382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079184380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: -2.8, y: -6, z: 0}
 --- !u!1 &1165584729
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,6 +575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1165584730}
+  - component: {fileID: 1165584731}
   m_Layer: 0
   m_Name: LaneSpawn3
   m_TagString: Untagged
@@ -650,13 +591,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1165584729}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.45, y: -0.42, z: -0.037408784}
+  m_LocalPosition: {x: -1.1611719, y: -0.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1165584731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165584729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 1.48, y: 0, z: 0}
 --- !u!1 &1257149148
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1257149149}
+  - component: {fileID: 1257149150}
   m_Layer: 0
   m_Name: LaneSpawn4
   m_TagString: Untagged
@@ -681,13 +638,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257149148}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.02, y: -0.42, z: -0.037408784}
+  m_LocalPosition: {x: -5.4411716, y: -0.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1257149150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257149148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: -2.8, y: 0, z: 0}
 --- !u!1 &1290949934
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 46, y: -28}
+  m_AnchoredPosition: {x: -11.5, y: -49.4}
   m_SizeDelta: {x: 271.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1290949936
@@ -832,6 +804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1488817994}
+  - component: {fileID: 1488817995}
   m_Layer: 0
   m_Name: LaneSpawn8
   m_TagString: Untagged
@@ -847,48 +820,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488817993}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.41, y: -7.38, z: -0.037408784}
+  m_LocalPosition: {x: -1.1611719, y: -6.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1669612976
-GameObject:
+--- !u!114 &1488817995
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1669612977}
-  m_Layer: 0
-  m_Name: SpawnPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1669612977
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669612976}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 617569631}
-  - {fileID: 59487848}
-  - {fileID: 935711413}
-  - {fileID: 589553283}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 1488817993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 1.48, y: -6, z: 0}
 --- !u!1 &1691183778
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,6 +851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1691183779}
+  - component: {fileID: 1691183780}
   m_Layer: 0
   m_Name: LaneSpawn7
   m_TagString: Untagged
@@ -913,13 +867,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691183778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.6, y: -7.38, z: -0.037408784}
+  m_LocalPosition: {x: -4.121172, y: -6.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1691183780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691183778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: -1.48, y: -6, z: 0}
 --- !u!1 &1697064370
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +937,7 @@ MonoBehaviour:
   - {fileID: 5301858977086656027, guid: 3354506ecffab66468e899be17c64e45, type: 3}
   - {fileID: 1216782103414627495, guid: f32cf8d6ad5054c4f833f9590945cee7, type: 3}
   - {fileID: 9134163921208531316, guid: 7813b747bf0778e4a80eef9bbb02505a, type: 3}
-  currentLevel: 5
+  currentLevel: 1
 --- !u!4 &1697064372
 Transform:
   m_ObjectHideFlags: 0
@@ -1027,7 +996,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1859797710
 GameObject:
@@ -1068,7 +1037,7 @@ Transform:
   - {fileID: 1079184381}
   - {fileID: 2050428459}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2037138027
 GameObject:
@@ -1165,7 +1134,7 @@ RectTransform:
   - {fileID: 1290949935}
   - {fileID: 423783777}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1181,6 +1150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2050428459}
+  - component: {fileID: 2050428460}
   m_Layer: 0
   m_Name: LaneSpawn10
   m_TagString: Untagged
@@ -1196,13 +1166,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050428458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.73, y: -7.38, z: -0.037408784}
+  m_LocalPosition: {x: 0.15882802, y: -6.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2050428460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050428458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 2.8, y: -6, z: 0}
 --- !u!1 &2095979472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1200,7 @@ GameObject:
   - component: {fileID: 2095979475}
   - component: {fileID: 2095979474}
   - component: {fileID: 2095979473}
+  - component: {fileID: 2095979477}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1290,7 +1276,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 8.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1321,6 +1307,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2095979477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095979472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3219d287b31b5684cb094ff9b52c48f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wireColor: {r: 1, g: 1, b: 1, a: 1}
+  UnitsSize: 17
+  constraint: 1
+  camera: {fileID: 2095979475}
+  executeInUpdate: 1
 --- !u!1 &2115866001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,6 +1333,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2115866002}
+  - component: {fileID: 2115866003}
   m_Layer: 0
   m_Name: LaneSpawn5
   m_TagString: Untagged
@@ -1345,10 +1349,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2115866001}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.66, y: -0.42, z: -0.037408784}
+  m_LocalPosition: {x: 0.15882802, y: -0.6624193, z: -0.037408784}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1859797711}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2115866003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115866001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1168e184f1114a4c932daffced8eee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInUpdate: 1
+  anchorType: 4
+  anchorOffset: {x: 2.8, y: 0, z: 0}
