@@ -1213,6 +1213,9 @@ MonoBehaviour:
   - {fileID: 5301858977086656027, guid: 3354506ecffab66468e899be17c64e45, type: 3}
   - {fileID: 1216782103414627495, guid: f32cf8d6ad5054c4f833f9590945cee7, type: 3}
   - {fileID: 9134163921208531316, guid: 7813b747bf0778e4a80eef9bbb02505a, type: 3}
+  - {fileID: 2579271833776794630, guid: 0619f7b0efc2aec4cac4a432adfbca21, type: 3}
+  - {fileID: 2352189416271495062, guid: 47da575f32434544da400709b2cf1d14, type: 3}
+  - {fileID: 2352189416271495062, guid: 40b14affadd9d6d4892235a1f1f61b09, type: 3}
   currentLevel: 1
 --- !u!4 &1697064372
 Transform:

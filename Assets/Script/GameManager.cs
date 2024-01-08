@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using static GameManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,8 +25,8 @@ public class GameManager : MonoBehaviour
 	private Lane receiverLane;
 	float chosenOffset = 0.75f;
 
-	private int numberOfLevels;
-	[SerializeField] private int currentLevel = 1;
+	private int numberOfLevelsInList;
+	private int currentLevel = 1; //probally delete this cus its saved in json
 
 	private int numberOfLane;
 	private int numberOfCompletedLane = 0;
@@ -33,11 +36,6 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		InitializeLevel();
-	}
-
-	private void Update()
-	{
-
 	}
 
 	public void SetChosenLane(Lane lane)
@@ -55,8 +53,8 @@ public class GameManager : MonoBehaviour
 		receiverLane = lane;
 		Shape chosenShape = chosenLane.GetTopShape();
 
-/*		Debug.Log("Attemp Pour " + chosenLane + " to " + receiverLane);
-		Debug.Log("Fillable status " + (receiverLane.LaneFillable(chosenShape)));*/
+		/*		Debug.Log("Attemp Pour " + chosenLane + " to " + receiverLane);
+				Debug.Log("Fillable status " + (receiverLane.LaneFillable(chosenShape)));*/
 
 
 		if (chosenLane.NumberOfShapes() == 0 || chosenLane.IsComplete()) //might need to give Lane an isComplete bool to avoid calling IsComplete()
@@ -80,8 +78,8 @@ public class GameManager : MonoBehaviour
 
 				int numOfEmpty = receiverLane.EmptyPositions();
 				int numOfShapeToPour = chosenLane.NumberOfShapeToPour(numOfEmpty, receiverLane.GetTopShape());
-				Debug.Log("num of shape to pour " + numOfShapeToPour);
-				int reciverFirstEmptyIndex = receiverLane.FindFirstEmptyIndex();
+/*				Debug.Log("num of shape to pour " + numOfShapeToPour);
+*/				int reciverFirstEmptyIndex = receiverLane.FindFirstEmptyIndex();
 				int chosenLastIndexWithChild = chosenLane.FindLastIndexWithChild();
 
 				for (int i = 1; i <= numOfShapeToPour; i++)
@@ -94,7 +92,7 @@ public class GameManager : MonoBehaviour
 				}
 				PopLaneDown(chosenLane);
 
-				if(receiverLane.IsComplete())
+				if (receiverLane.IsComplete())
 				{
 					numberOfCompletedLane++;
 					receiverLane.PlayVFX();
@@ -108,7 +106,7 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("chosen an unfillable lane");
+/*			Debug.Log("chosen an unfillable lane");*/
 			PopLaneDown(chosenLane);
 			chosenLane = receiverLane;
 			PopLaneUp(chosenLane);
@@ -131,7 +129,7 @@ public class GameManager : MonoBehaviour
 		lane.transform.position = newPosition;
 	}
 
-	
+
 	public bool HasChosenLane()
 	{
 		return chosenLane != null;
@@ -139,61 +137,88 @@ public class GameManager : MonoBehaviour
 
 	public void InitializeLevel()
 	{
-		levelText.text = "Level " + currentLevel; //temp, bad gui location
-		TextAsset jsonFile = Resources.Load<TextAsset>("LevelData");
+		//Convoluted af
+		//If current level is within list of pre-made level -> spawn level
+		//If current level is outside list of pre-made level, check if the generated level in json is beaten -> if not countinue play
+		//If generated level in json is beaten -> generate new level, save that level to current level
+#if UNITY_EDITOR
 
-		if (jsonFile != null)
+		UnityEditor.AssetDatabase.Refresh();
+
+#endif
+
+		TextAsset levelListJson = Resources.Load<TextAsset>("LevelData");
+
+		if (levelListJson != null)
 		{
-			LevelContainer levelContainer = JsonUtility.FromJson<LevelContainer>(jsonFile.text);
+			LevelContainer levelContainer = JsonUtility.FromJson<LevelContainer>(levelListJson.text);
+			currentLevel = levelContainer.currentLevel;
 
+			levelText.text = "Level " + currentLevel; //temp, bad gui location
 
-			numberOfLevels = levelContainer.Level.Count;
-			if (currentLevel <= numberOfLevels)
+			numberOfLevelsInList = levelContainer.Levels.Count;
+			
+			if (currentLevel <= numberOfLevelsInList)
 			{
-				numberOfLane = levelContainer.Level[currentLevel - 1].numLane;
-				List<int> shapeIdList = levelContainer.Level[currentLevel - 1].ShapeColorType;
-				int currentShapeIndex = 0;
+				numberOfLane = levelContainer.Levels[currentLevel - 1].numLane;
+				List<int> shapeIdList = levelContainer.Levels[currentLevel - 1].ShapeColorType;
+				Debug.Log("we here now " + levelContainer.currentLevel);
+				SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
 
-				if (allLanes.Count > 0)
-				{
-					foreach (Lane lane in allLanes)
-					{
-						GameObject.Destroy(lane.gameObject);
-					}
-				}
-
-				allLanes.Clear();
-
-				int newlanecount = 1; //debug purpose
-				for (int i = 1; i <= numberOfLane; i++)
-				{
-
-					Lane newLane = GameObject.Instantiate(lanePrefab);
-					allLanes.Add(newLane);
-					newLane.transform.position = LaneSpawnPositions[i - 1].position;
-					newLane.name += newlanecount; //debug purpose
-					newlanecount++; //debug purpose
-
-					List<GameObject> allShapePos = newLane.GetAllShapesPosition();
-
-					if (i <= numberOfLane - 2)
-					{
-						foreach (GameObject go in allShapePos)
-						{
-							int newShapeId = shapeIdList[currentShapeIndex];
-							Shape newShape = GameObject.Instantiate(allShapes[newShapeId - 1], go.transform);
-
-							newShape.transform.localPosition = UnityEngine.Vector3.zero;
-							currentShapeIndex++;
-						}
-					}
-				}
-				
 			}
 			else
 			{
-				Debug.Log("We got no more levels");
-				OnNoMoreLevel?.Invoke(this, EventArgs.Empty);
+				TextAsset generatedLevelJson = Resources.Load<TextAsset>("GeneratedLevel");
+				if (generatedLevelJson != null && !string.IsNullOrEmpty(generatedLevelJson.text))
+				{
+					GeneratedLevelData generatedLevelData = JsonUtility.FromJson<GeneratedLevelData>(generatedLevelJson.text);
+
+					if (generatedLevelData.levelNumber < levelContainer.currentLevel)
+					{
+						Level newLevel = GenerateLevel();
+						GeneratedLevelData newLevelData = new GeneratedLevelData()
+						{
+							levelNumber = ++generatedLevelData.levelNumber,
+							Level = newLevel
+						};
+
+						numberOfLane = newLevel.numLane;
+						List<int> shapeIdList = newLevel.ShapeColorType;
+						SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
+
+						string newLevelJson = JsonUtility.ToJson(newLevelData);
+						File.WriteAllText(Application.dataPath + "/Resources/GeneratedLevel.json", newLevelJson);
+
+						levelContainer.currentLevel++;
+						string updateLevelListJson = JsonUtility.ToJson(levelContainer);
+						File.WriteAllText(Application.dataPath + "/Resources/LevelData.json", updateLevelListJson);
+					}
+					else if (generatedLevelData.levelNumber == levelContainer.currentLevel)
+					{
+						SpawnLevelLanesAndShapes(numberOfLane, generatedLevelData.Level.ShapeColorType);
+					}
+				}else
+				{
+					Debug.Log("null shitz");
+					Level newLevel = GenerateLevel();
+					GeneratedLevelData newLevelData = new GeneratedLevelData()
+					{
+						levelNumber = currentLevel + 1,
+						Level = newLevel
+					};
+
+					numberOfLane = newLevel.numLane;
+					List<int> shapeIdList = newLevel.ShapeColorType;
+					SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
+
+					string newLevelJson = JsonUtility.ToJson(newLevelData);
+					File.WriteAllText(Application.dataPath + "/Resources/GeneratedLevel.json", newLevelJson);
+
+					levelContainer.currentLevel++;
+					string updateLevelListJson = JsonUtility.ToJson(levelContainer);
+					File.WriteAllText(Application.dataPath + "/Resources/LevelData.json", updateLevelListJson);
+				}
+				Resources.UnloadAsset(generatedLevelJson);
 			}
 
 		}
@@ -201,14 +226,69 @@ public class GameManager : MonoBehaviour
 		{
 			Debug.LogError("Failed to load JSON file");
 		}
+		Resources.UnloadAsset(levelListJson);
+		
+	}
+
+	public void SpawnLevelLanesAndShapes(int levelNumberOfLane, List<int> shapeIdList)
+	{
+		Debug.Log("we there now");
+		int currentShapeIndex = 0;
+
+		if (allLanes.Count > 0)
+		{
+			foreach (Lane lane in allLanes)
+			{
+				GameObject.Destroy(lane.gameObject);
+			}
+		}
+
+		allLanes.Clear();
+
+		int newlanecount = 1; //debug purpose
+		for (int i = 1; i <= levelNumberOfLane; i++)
+		{
+
+			Lane newLane = GameObject.Instantiate(lanePrefab);
+			allLanes.Add(newLane);
+			newLane.transform.position = LaneSpawnPositions[i - 1].position;
+			newLane.name += newlanecount; //debug purpose
+			newlanecount++; //debug purpose
+
+			List<GameObject> allShapePos = newLane.GetAllShapesPosition();
+
+			if (i <= levelNumberOfLane - 2)
+			{
+				foreach (GameObject go in allShapePos)
+				{
+					int newShapeId = shapeIdList[currentShapeIndex];
+					Shape newShape = GameObject.Instantiate(allShapes[newShapeId - 1], go.transform);
+
+					newShape.transform.localPosition = UnityEngine.Vector3.zero;
+					currentShapeIndex++;
+				}
+			}
+		}
 	}
 
 	public void WinCondition()
 	{
-		if(numberOfCompletedLane == numberOfLane - 2)
+		if (numberOfCompletedLane == numberOfLane - 2)
 		{
-			currentLevel++;
 			numberOfCompletedLane = 0;
+
+			//save current level in file
+			TextAsset levelListJson = Resources.Load<TextAsset>("LevelData");
+			if(levelListJson != null)
+			{
+				LevelContainer levelContainer = JsonUtility.FromJson<LevelContainer>(levelListJson.text);
+				levelContainer.currentLevel++;
+				string updateLevelListJson = JsonUtility.ToJson(levelContainer);
+				File.WriteAllText(Application.dataPath + "/Resources/LevelData.json", updateLevelListJson);
+				Resources.UnloadAsset(levelListJson);
+			}
+			
+
 			InitializeLevel();
 		}
 	}
@@ -219,37 +299,40 @@ public class GameManager : MonoBehaviour
 		//check if nothing in list is dupe(all shape is distict) => lose
 		//if shape dupe, check if the all lanes that contain any dupe have any more slot above it => if no slot, lose
 		List<int> allTopShapesId = new List<int>();
-		foreach(Lane lane in allLanes)
+		foreach (Lane lane in allLanes)
 		{
 			Shape topShape = lane.GetTopShape();
-			if(topShape == null)
+			if (topShape == null)
 			{
 				return;
-			}else
+			}
+			else
 			{
 				allTopShapesId.Add(topShape.GetShapeId());
 			}
 		}
 		bool areAllDistinct = allTopShapesId.Distinct().Count() == allTopShapesId.Count;
 
-		if(areAllDistinct)
+		if (areAllDistinct)
 		{
 			Debug.Log("Lose invoke");
 			OnNoMoreMoves?.Invoke(this, EventArgs.Empty);
-		}else
+		}
+		else
 		{
 			List<int> indicesWithDupe = FindDuplicateIndices(allTopShapesId);
 			/*foreach(int shapeId in indicesWithDupe) { Debug.Log("lane" + shapeId); } //debug*/
 
 			bool winnable = false;
-			foreach(int index in indicesWithDupe)
+			foreach (int index in indicesWithDupe)
 			{
-				
-				if (allLanes[index].NumberOfShapes() < 4) {
+
+				if (allLanes[index].NumberOfShapes() < 4)
+				{
 					winnable = true; break;
 				}
 			}
-			if(!winnable)
+			if (!winnable)
 			{
 				Debug.Log("Lose condition invoke");
 				OnNoMoreMoves?.Invoke(this, EventArgs.Empty);
@@ -260,14 +343,14 @@ public class GameManager : MonoBehaviour
 
 	public void ExtraLanePowerUp()
 	{
-		if(numberOfLane == 10)
+		if (numberOfLane == 10)
 		{
 			return;
 		}
 		Lane newLane = GameObject.Instantiate(lanePrefab);
 		allLanes.Add(newLane);
 		newLane.transform.position = LaneSpawnPositions[numberOfLane].position;
-		
+
 
 		numberOfLane++;
 	}
@@ -309,11 +392,73 @@ public class GameManager : MonoBehaviour
 	[System.Serializable]
 	public class LevelContainer
 	{
-		public List<Level> Level;
+		public int currentLevel;
+		public List<Level> Levels;
 	}
 
+	[System.Serializable]
+	public class GeneratedLevelData
+	{
+		public int levelNumber;
+		public Level Level;
+	}
 
+	public Level GenerateLevel()
+	{
+		List<int> allShapesId = new List<int>();
+		for (int i = 1; i < allShapes.Count; i++)
+		{
+			allShapesId.Add(i);
+		}
 
+		int numberofShapes = UnityEngine.Random.Range(2, 8);
+
+		List<int> ChosenShapesId = new List<int>();
+		for (int i = 0; i < numberofShapes; i++)
+		{
+			int index = UnityEngine.Random.Range(0, allShapesId.Count);
+			int randomValue = allShapesId[index];
+
+			// Add the selected random number to the result
+			ChosenShapesId.Add(randomValue);
+
+			// Remove the selected number from the available numbers to ensure uniqueness
+			allShapesId.RemoveAt(index);
+		}
+
+		List<int> ShapeColorTypeResult = new List<int>();
+		foreach (int shapeId in ChosenShapesId)
+		{
+			for (int i = 1; i <= 4; i++)
+			{
+				ShapeColorTypeResult.Add(shapeId);
+			}
+		}
+
+		Shuffle(ShapeColorTypeResult);
+		Level newGeneratedLevel = new Level()
+		{
+			numLane = numberofShapes + 2,
+			ShapeColorType = ShapeColorTypeResult
+		};
+		return newGeneratedLevel;
+	}
+
+	private void Shuffle(List<int> list)
+	{
+		System.Random random = new System.Random();
+		int n = list.Count;
+
+		for (int i = n - 1; i > 0; i--)
+		{
+			int j = random.Next(0, i + 1);
+
+			// Swap list[i] and list[j]
+			int temp = list[i];
+			list[i] = list[j];
+			list[j] = temp;
+		}
+	}
 }
 
 
