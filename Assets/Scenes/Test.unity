@@ -1216,8 +1216,6 @@ MonoBehaviour:
   - {fileID: 2579271833776794630, guid: 0619f7b0efc2aec4cac4a432adfbca21, type: 3}
   - {fileID: 2352189416271495062, guid: 47da575f32434544da400709b2cf1d14, type: 3}
   - {fileID: 2352189416271495062, guid: 40b14affadd9d6d4892235a1f1f61b09, type: 3}
-  levelListJson: {fileID: 4900000, guid: 31b2a39e2b9e242419af575f1a073458, type: 3}
-  generatedLevelJson: {fileID: 4900000, guid: b870fb2180d2d2e4391b443bb0901087, type: 3}
 --- !u!4 &1697064372
 Transform:
   m_ObjectHideFlags: 0

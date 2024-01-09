@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,14 +28,34 @@ public class GameManager : MonoBehaviour
 
 	private int numberOfLevelsInList;
 	private int currentLevel = 1;
-	private int currentGenLevel = 1;
 
 	private int numberOfLane;
 	private int numberOfCompletedLane = 0;
 	private List<Lane> allLanes = new List<Lane>();
 
-	[SerializeField] private TextAsset levelListJson;
-	[SerializeField] private TextAsset generatedLevelJson;
+	LevelContainer levelsContainer;
+	CurrentLevelData currentLevelData;
+
+	 private TextAsset levelContainerJson;
+
+	private readonly IDataService DataService = new JsonDataService();
+	private readonly bool EncryptionEnabled = false;
+
+	private void Awake()
+	{
+		levelsContainer = JsonConvert.DeserializeObject<LevelContainer>(File.ReadAllText(Application.streamingAssetsPath + "/LevelsList.json"));
+		currentLevelData = DataService.LoadData<CurrentLevelData>("/CurrentLevel.json", EncryptionEnabled);
+
+		if (currentLevelData == null)
+		{
+			currentLevelData = new CurrentLevelData();
+		}
+
+		if (levelsContainer == null)
+		{
+			levelsContainer = new LevelContainer();
+		}
+	}
 
 	// Start is called before the first frame update
 	void Start()
@@ -57,10 +78,6 @@ public class GameManager : MonoBehaviour
 		receiverLane = lane;
 		Shape chosenShape = chosenLane.GetTopShape();
 
-		/*		Debug.Log("Attemp Pour " + chosenLane + " to " + receiverLane);
-				Debug.Log("Fillable status " + (receiverLane.LaneFillable(chosenShape)));*/
-
-
 		if (chosenLane.NumberOfShapes() == 0 || chosenLane.IsComplete()) //might need to give Lane an isComplete bool to avoid calling IsComplete()
 		{
 			PopLaneDown(chosenLane);
@@ -82,8 +99,7 @@ public class GameManager : MonoBehaviour
 
 				int numOfEmpty = receiverLane.EmptyPositions();
 				int numOfShapeToPour = chosenLane.NumberOfShapeToPour(numOfEmpty, receiverLane.GetTopShape());
-/*				Debug.Log("num of shape to pour " + numOfShapeToPour);
-*/				int reciverFirstEmptyIndex = receiverLane.FindFirstEmptyIndex();
+				int reciverFirstEmptyIndex = receiverLane.FindFirstEmptyIndex();
 				int chosenLastIndexWithChild = chosenLane.FindLastIndexWithChild();
 
 				for (int i = 1; i <= numOfShapeToPour; i++)
@@ -110,7 +126,6 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-/*			Debug.Log("chosen an unfillable lane");*/
 			PopLaneDown(chosenLane);
 			chosenLane = receiverLane;
 			PopLaneUp(chosenLane);
@@ -141,101 +156,47 @@ public class GameManager : MonoBehaviour
 
 	public void InitializeLevel()
 	{
-		//Convoluted af
-		//If current level is within list of pre-made level -> spawn level
-		//If current level is outside list of pre-made level, check if the generated level in json is beaten -> if not countinue play
-		//If generated level in json is beaten -> generate new level, save that level to current level
-		// work under the assumption that LevelList content is not empty
+		//if there are still hand-made levels in levelsList, keep spawning and playing them
+		//if there are no more in levelsList, generate level and save it in currentLevel
+		//works under the assumption that LevelsList.json is != null or empty
+		//json are in Application.persistentDataPath
 #if UNITY_EDITOR
 		UnityEditor.AssetDatabase.Refresh();
 #endif
-
-		if (levelListJson != null)
+		if (currentLevelData.currentLevel > 1)
 		{
-			LevelContainer levelContainer = JsonUtility.FromJson<LevelContainer>(levelListJson.text);
-			currentLevel = levelContainer.currentLevel;
+			currentLevel = currentLevelData.currentLevel;
+		}
 
-			levelText.text = "Level " + currentLevel; //temp, bad gui location
 
-			numberOfLevelsInList = levelContainer.Levels.Count;
-			
-			if (currentLevel <= numberOfLevelsInList)
-			{
-				numberOfLane = levelContainer.Levels[currentLevel - 1].numLane;
-				List<int> shapeIdList = levelContainer.Levels[currentLevel - 1].ShapeColorType;
-				SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
+		levelText.text = "Level " + currentLevel; //temp, bad gui location
 
-			}
-			else
-			{
-				
-				if (generatedLevelJson != null)
-				{
-					GeneratedLevelData generatedLevelData = JsonUtility.FromJson<GeneratedLevelData>(generatedLevelJson.text);
+		numberOfLevelsInList = levelsContainer.Levels.Count;
 
-					if(!string.IsNullOrEmpty(generatedLevelJson.text))
-					{
-						currentGenLevel = generatedLevelData.levelNumber;
-					}
-
-					if (string.IsNullOrEmpty(generatedLevelJson.text))
-					{
-						//generate new level data
-						Level newLevel = GenerateLevel();
-						GeneratedLevelData newLevelData = new GeneratedLevelData()
-						{
-							levelNumber = currentLevel,
-							Level = newLevel
-						};
-
-						//spawn new level in game
-						numberOfLane = newLevel.numLane;
-						List<int> shapeIdList = newLevel.ShapeColorType;
-						SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
-
-						//save level data
-						string newLevelJson = JsonUtility.ToJson(newLevelData);
-						File.WriteAllText(Application.dataPath + "/Resources/GeneratedLevel.json", newLevelJson);
-
-						//cache json data so we dont have to re-read
-						TextAsset updateLevel= new TextAsset(newLevelJson);
-						generatedLevelJson = updateLevel;
-					}
-					else if (generatedLevelData.levelNumber < levelContainer.currentLevel)
-					{
-						//generate new level data
-						Level newLevel = GenerateLevel();
-						GeneratedLevelData newLevelData = new GeneratedLevelData()
-						{
-							levelNumber = currentLevel,
-							Level = newLevel
-						};
-
-						//spawn new level in game
-						numberOfLane = newLevel.numLane;
-						List<int> shapeIdList = newLevel.ShapeColorType;
-						SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
-
-						//save level data
-						string newLevelJson = JsonUtility.ToJson(newLevelData);
-						File.WriteAllText(Application.dataPath + "/Resources/GeneratedLevel.json", newLevelJson);
-
-						//cache json data so we dont have to re-read
-						TextAsset updateLevel = new TextAsset(newLevelJson);
-						generatedLevelJson = updateLevel;
-					}
-					else if (generatedLevelData.levelNumber == levelContainer.currentLevel)
-					{
-						numberOfLane = generatedLevelData.Level.numLane;
-						SpawnLevelLanesAndShapes(numberOfLane, generatedLevelData.Level.ShapeColorType);
-					}
-				}
-			}
+		if (currentLevel <= numberOfLevelsInList)
+		{
+			numberOfLane = levelsContainer.Levels[currentLevel - 1].numLane;
+			List<int> shapeIdList = levelsContainer.Levels[currentLevel - 1].ShapeColorType;
+			SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
 
 		}
 		else
 		{
-			Debug.LogError("Failed to load JSON file");
+			if (currentLevelData == null || currentLevelData.Level == null)
+			{
+				Level newLevel = GenerateLevel();
+				CurrentLevelData newLevelData = new CurrentLevelData()
+				{
+					currentLevel = currentLevel,
+					Level = newLevel
+				};
+
+				currentLevelData = newLevelData;
+			}
+			//spawn new level in game
+			numberOfLane = currentLevelData.Level.numLane;
+			List<int> shapeIdList = currentLevelData.Level.ShapeColorType;
+			SpawnLevelLanesAndShapes(numberOfLane, shapeIdList);
 		}
 	}
 
@@ -286,17 +247,21 @@ public class GameManager : MonoBehaviour
 			numberOfCompletedLane = 0;
 
 			//save current level in file
-			if(levelListJson != null)
-			{
-				LevelContainer levelContainer = JsonUtility.FromJson<LevelContainer>(levelListJson.text);
-				levelContainer.currentLevel++;
-				string updateLevelListJson = JsonUtility.ToJson(levelContainer);
-				File.WriteAllText(Application.dataPath + "/Resources/LevelData.json", updateLevelListJson);
 
-				TextAsset updateLevelList = new TextAsset(updateLevelListJson);
-				levelListJson = updateLevelList;
+			currentLevelData.currentLevel++;
+			currentLevel++;
+			if (currentLevel > levelsContainer.Levels.Count)
+			{
+				Level newLevel = GenerateLevel();
+				CurrentLevelData newLevelData = new CurrentLevelData()
+				{
+					currentLevel = currentLevel,
+					Level = newLevel
+				};
+
+				currentLevelData = newLevelData;
 			}
-			
+			DataService.SaveData("/CurrentLevel.json", currentLevelData, EncryptionEnabled);
 
 			InitializeLevel();
 		}
@@ -325,7 +290,7 @@ public class GameManager : MonoBehaviour
 		if (areAllDistinct)
 		{
 			Debug.Log("Lose invoke");
-			OnNoMoreMoves?.Invoke(this, EventArgs.Empty);
+			OnNoMoreMoves?.Invoke(this, EventArgs.Empty); //temp, nothing is using this
 		}
 		else
 		{
@@ -401,14 +366,13 @@ public class GameManager : MonoBehaviour
 	[System.Serializable]
 	public class LevelContainer
 	{
-		public int currentLevel;
 		public List<Level> Levels;
 	}
 
 	[System.Serializable]
-	public class GeneratedLevelData
+	public class CurrentLevelData
 	{
-		public int levelNumber;
+		public int currentLevel;
 		public Level Level;
 	}
 
